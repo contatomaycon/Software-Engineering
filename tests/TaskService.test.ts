@@ -84,7 +84,7 @@ describe('TaskService', () => {
 
     it('deve filtrar tarefas por status', () => {
       const task1 = taskService.createTask({ title: 'Tarefa 1', description: 'Desc 1' });
-      const task2 = taskService.createTask({ title: 'Tarefa 2', description: 'Desc 2' });
+      taskService.createTask({ title: 'Tarefa 2', description: 'Desc 2' });
       
       taskService.updateTask(task1.id, { status: 'completed' });
 

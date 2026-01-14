@@ -11,13 +11,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Middleware para logging de requisições
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
 // Rota de saúde da aplicação
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({ 
     status: 'ok', 
     message: 'Sistema de Gerenciamento de Tarefas está funcionando',
@@ -29,7 +29,7 @@ app.get('/health', (req, res) => {
 setupTaskRoutes(app);
 
 // Middleware de tratamento de erros
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('Erro:', err);
   res.status(500).json({ 
     error: 'Erro interno do servidor',
