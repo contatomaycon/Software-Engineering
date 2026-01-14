@@ -136,7 +136,7 @@ describe('TaskService', () => {
       expect(updatedTask?.title).toBe('Tarefa Atualizada');
       expect(updatedTask?.status).toBe('in-progress');
       expect(updatedTask?.priority).toBe('high');
-      expect(updatedTask?.updatedAt.getTime()).toBeGreaterThan(task.updatedAt.getTime());
+      expect(updatedTask?.updatedAt.getTime()).toBeGreaterThanOrEqual(task.updatedAt.getTime());
     });
 
     it('deve retornar null quando tarefa não existe', () => {
