@@ -63,7 +63,8 @@ describe('TaskController', () => {
       const response = taskController.getAllTasks(req);
 
       expect(response.statusCode).toBe(200);
-      expect(response.body.tasks.length).toBe(2);
+      expect(response.body.tasks).toBeDefined();
+      expect(response.body.tasks!.length).toBe(2);
       expect(response.body.count).toBe(2);
     });
 
@@ -76,8 +77,9 @@ describe('TaskController', () => {
       const response = taskController.getAllTasks(req);
 
       expect(response.statusCode).toBe(200);
-      expect(response.body.tasks.length).toBe(1);
-      expect(response.body.tasks[0].status).toBe('completed');
+      expect(response.body.tasks).toBeDefined();
+      expect(response.body.tasks!.length).toBe(1);
+      expect(response.body.tasks![0].status).toBe('completed');
     });
   });
 
