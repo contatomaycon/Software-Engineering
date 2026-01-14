@@ -26,7 +26,7 @@ describe('TaskController', () => {
       expect(response.statusCode).toBe(201);
       expect(response.body.message).toBe('Tarefa criada com sucesso');
       expect(response.body.task).toBeDefined();
-      expect(response.body.task.title).toBe('Nova Tarefa');
+      expect(response.body.task!.title).toBe('Nova Tarefa');
     });
 
     it('deve retornar erro 400 quando título está vazio', () => {
@@ -93,7 +93,7 @@ describe('TaskController', () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body.task).toBeDefined();
-      expect(response.body.task.id).toBe(task.id);
+      expect(response.body.task!.id).toBe(task.id);
     });
 
     it('deve retornar 404 quando tarefa não existe', () => {
@@ -124,8 +124,9 @@ describe('TaskController', () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Tarefa atualizada com sucesso');
-      expect(response.body.task.title).toBe('Tarefa Atualizada');
-      expect(response.body.task.status).toBe('completed');
+      expect(response.body.task).toBeDefined();
+      expect(response.body.task!.title).toBe('Tarefa Atualizada');
+      expect(response.body.task!.status).toBe('completed');
     });
 
     it('deve retornar 404 quando tarefa não existe', () => {
