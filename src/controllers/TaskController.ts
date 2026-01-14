@@ -1,5 +1,19 @@
 import { TaskService } from '../services/TaskService';
-import { CreateTaskDTO, UpdateTaskDTO } from '../models/Task';
+import { CreateTaskDTO, UpdateTaskDTO, Task } from '../models/Task';
+
+/**
+ * Tipo de resposta do controlador
+ */
+interface ControllerResponse {
+  statusCode: number;
+  body: {
+    message?: string;
+    task?: Task;
+    tasks?: Task[];
+    count?: number;
+    error?: string;
+  };
+}
 
 /**
  * Controlador de tarefas
@@ -15,7 +29,7 @@ export class TaskController {
   /**
    * Cria uma nova tarefa
    */
-  createTask(req: { body: CreateTaskDTO }) {
+  createTask(req: { body: CreateTaskDTO }): ControllerResponse {
     try {
       const task = this.taskService.createTask(req.body);
       return {
@@ -33,7 +47,7 @@ export class TaskController {
   /**
    * Lista todas as tarefas
    */
-  getAllTasks(req: { query?: { status?: string } }) {
+  getAllTasks(req: { query?: { status?: string } }): ControllerResponse {
     const status = req.query?.status as 'pending' | 'in-progress' | 'completed' | undefined;
     const tasks = this.taskService.getAllTasks(status);
     return {
@@ -45,7 +59,7 @@ export class TaskController {
   /**
    * Busca uma tarefa por ID
    */
-  getTaskById(req: { params: { id: string } }) {
+  getTaskById(req: { params: { id: string } }): ControllerResponse {
     const task = this.taskService.getTaskById(req.params.id);
     
     if (!task) {
@@ -64,7 +78,7 @@ export class TaskController {
   /**
    * Atualiza uma tarefa
    */
-  updateTask(req: { params: { id: string }; body: UpdateTaskDTO }) {
+  updateTask(req: { params: { id: string }; body: UpdateTaskDTO }): ControllerResponse {
     try {
       const task = this.taskService.updateTask(req.params.id, req.body);
       
@@ -90,7 +104,7 @@ export class TaskController {
   /**
    * Remove uma tarefa
    */
-  deleteTask(req: { params: { id: string } }) {
+  deleteTask(req: { params: { id: string } }): ControllerResponse {
     const deleted = this.taskService.deleteTask(req.params.id);
     
     if (!deleted) {

@@ -63,7 +63,7 @@ export function setupTaskRoutes(app: any) {
   });
 
   // Tarefas de alta prioridade pendentes
-  app.get('/api/tasks/high-priority', (req: any, res: any) => {
+  app.get('/api/tasks/high-priority', (_req: any, res: any) => {
     const response = statisticsController.getHighPriorityPendingTasks();
     res.status(response.statusCode).json(response.body);
   });
