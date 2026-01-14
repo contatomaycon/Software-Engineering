@@ -1,4 +1,25 @@
 import { TaskStatisticsService } from '../services/TaskStatisticsService';
+import { Task } from '../models/Task';
+
+/**
+ * Tipo de resposta do controlador de estatísticas
+ */
+interface StatisticsControllerResponse {
+  statusCode: number;
+  body: {
+    statistics?: {
+      total: number;
+      byStatus: Record<string, number>;
+      byPriority: Record<string, number>;
+      completedPercentage: number;
+      averageTasksPerDay?: number;
+    };
+    tasks?: Task[];
+    count?: number;
+    days?: number;
+    error?: string;
+  };
+}
 
 /**
  * Controlador de Estatísticas de Tarefas
@@ -14,7 +35,7 @@ export class TaskStatisticsController {
   /**
    * Retorna estatísticas gerais das tarefas
    */
-  getStatistics() {
+  getStatistics(): StatisticsControllerResponse {
     try {
       const statistics = this.statisticsService.getStatistics();
       return {
@@ -32,7 +53,7 @@ export class TaskStatisticsController {
   /**
    * Retorna tarefas próximas do vencimento
    */
-  getTasksNearDueDate(req: { query?: { days?: string } }) {
+  getTasksNearDueDate(req: { query?: { days?: string } }): StatisticsControllerResponse {
     try {
       const days = req.query?.days ? parseInt(req.query.days, 10) : 3;
       const tasks = this.statisticsService.getTasksNearDueDate(days);
@@ -56,7 +77,7 @@ export class TaskStatisticsController {
   /**
    * Retorna tarefas atrasadas
    */
-  getOverdueTasks() {
+  getOverdueTasks(): StatisticsControllerResponse {
     try {
       const tasks = this.statisticsService.getOverdueTasks();
       
@@ -78,7 +99,7 @@ export class TaskStatisticsController {
   /**
    * Retorna tarefas de alta prioridade pendentes
    */
-  getHighPriorityPendingTasks() {
+  getHighPriorityPendingTasks(): StatisticsControllerResponse {
     try {
       const tasks = this.statisticsService.getHighPriorityPendingTasks();
       
