@@ -1,13 +1,14 @@
 import request from 'supertest';
 import express from 'express';
 import { setupTaskRoutes } from '../../src/routes/taskRoutes';
+import { Task } from '../../src/models/Task';
 
 // Criar instância do app para testes
 const testApp = express();
 testApp.use(express.json());
 
 // Rota de saúde da aplicação
-testApp.get('/health', (req, res) => {
+testApp.get('/health', (_req, res) => {
   res.json({ 
     status: 'ok', 
     message: 'Sistema de Gerenciamento de Tarefas está funcionando',
@@ -72,7 +73,7 @@ describe('Task API Integration Tests', () => {
 
       expect(response.body.tasks).toBeDefined();
       if (response.body.tasks.length > 0) {
-        response.body.tasks.forEach((task: any) => {
+        response.body.tasks.forEach((task: Task) => {
           expect(task.status).toBe('pending');
         });
       }
@@ -83,7 +84,7 @@ describe('Task API Integration Tests', () => {
     it('deve buscar tarefa por ID', async () => {
       if (!createdTaskId) {
         // Criar tarefa se não existir
-        const createResponse = await request(app)
+        const createResponse = await request(testApp)
           .post('/api/tasks')
           .send({
             title: 'Tarefa para buscar',
@@ -110,7 +111,7 @@ describe('Task API Integration Tests', () => {
   describe('PUT /api/tasks/:id', () => {
     it('deve atualizar tarefa existente', async () => {
       if (!createdTaskId) {
-        const createResponse = await request(app)
+        const createResponse = await request(testApp)
           .post('/api/tasks')
           .send({
             title: 'Tarefa para atualizar',
@@ -136,7 +137,7 @@ describe('Task API Integration Tests', () => {
   describe('DELETE /api/tasks/:id', () => {
     it('deve remover tarefa existente', async () => {
       // Criar tarefa para deletar
-      const createResponse = await request(app)
+      const createResponse = await request(testApp)
         .post('/api/tasks')
         .send({
           title: 'Tarefa para deletar',

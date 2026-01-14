@@ -45,7 +45,7 @@ export function setupTaskRoutes(app: any) {
   const statisticsController = new TaskStatisticsController(statisticsService);
 
   // Estatísticas gerais
-  app.get('/api/tasks/statistics', (req: any, res: any) => {
+  app.get('/api/tasks/statistics', (_req: any, res: any) => {
     const response = statisticsController.getStatistics();
     res.status(response.statusCode).json(response.body);
   });
@@ -57,7 +57,7 @@ export function setupTaskRoutes(app: any) {
   });
 
   // Tarefas atrasadas
-  app.get('/api/tasks/overdue', (req: any, res: any) => {
+  app.get('/api/tasks/overdue', (_req: any, res: any) => {
     const response = statisticsController.getOverdueTasks();
     res.status(response.statusCode).json(response.body);
   });
